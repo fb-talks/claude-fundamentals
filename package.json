@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "fb-slides dev",
     "build": "fb-slides build",
+    "postbuild": "cp node_modules/fb-slides/runtime/*.js node_modules/fb-slides/runtime/*.css dist/",
     "preview": "fb-slides preview",
     "kill": "fb-slides kill"
   },

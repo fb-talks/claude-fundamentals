@@ -9,6 +9,9 @@ npm run build     # → dist/
 npm run preview   # build, then serve dist/
 ```
 
+Published at <https://fb-talks.github.io/claude-fundamentals/> — every push to `main` rebuilds
+and redeploys it via `.github/workflows/deploy-pages.yml`.
+
 ## What is where
 
 | | |
