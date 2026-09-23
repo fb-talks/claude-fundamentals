@@ -6,11 +6,10 @@
   "scripts": {
     "dev": "fb-slides dev",
     "build": "fb-slides build",
-    "postbuild": "node -e \"fs.cpSync('node_modules/fb-slides/runtime','dist',{recursive:true,filter:(s)=>!s.endsWith('index.html')})\"",
     "preview": "fb-slides preview",
     "kill": "fb-slides kill"
   },
   "devDependencies": {
-    "fb-slides": "^0.11.0"
+    "fb-slides": "^0.11.1"
   }
 }

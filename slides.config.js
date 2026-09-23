@@ -15,6 +15,10 @@ export default {
   // — the deck's chrome follows it. Leave it out for this package's own look.
   // revealTheme: 'dracula',
 
+  // One of this package's own named looks — custom-aurora, custom-editoriale —
+  // layered between reveal's theme and theme.css. Omit for the base look.
+  themePack: 'custom-editoriale',
+
   // Six of those themes ask fonts.googleapis.com for their typefaces. Those
   // requests are stripped out, so a deck never depends on the room's wifi; the
   // theme falls back to the next font in its own stack. Set this to true to let
