@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#1e3a5f" />
+      <stop offset="1" stop-color="#2f6f8f" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#g2)" />
+  <text x="300" y="400" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif"
+    font-size="34" fill="#e8ebf0" fill-opacity="0.55">your photo 2</text>
+</svg>

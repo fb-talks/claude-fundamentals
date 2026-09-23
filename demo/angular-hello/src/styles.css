@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1rem;
+  height: 100vh;
+  background: #12151b;
+  color: #e8ebf0;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+h1 { font-size: clamp(20px, 4vw, 40px); font-weight: 650; margin: 0; }
+button {
+  font: inherit;
+  font-size: clamp(16px, 3vw, 28px);
+  padding: 0.4em 1.1em;
+  border-radius: 14px;
+  border: 1px solid #2c333f;
+  background: #1a1f27;
+  color: #6ea8fe;
+  cursor: pointer;
+}
