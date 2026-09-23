@@ -54,8 +54,13 @@ export default {
   // a path on disk.
   editor: true,
 
-  // The corner signature. Uncomment to show it.
-  // signature: { name: 'fabiobiondi.dev', url: 'https://www.fabiobiondi.dev', logo: 'assets/logo.png' },
+  // The corner signature, shown on every slide: name and logo, linking to url.
+  // Swap the values for your own, or delete the whole key to have no footer.
+  signature: {
+    name: 'www.fabiobiondi.dev',
+    url: 'https://www.fabiobiondi.dev',
+    logo: 'assets/jshd-sticker.png',
+  },
 
   // Passed straight to Reveal.initialize().
   // reveal: { transition: 'fade', slideNumber: false },

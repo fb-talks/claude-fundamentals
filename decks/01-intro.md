@@ -4,9 +4,9 @@ title: Claude Code — the fundamentals
 section: Intro
 ---
 
-# Claude Code — the fundamentals
+# Claude Code: _the fundamentals_
 
-CLAUDE.md · rules · skills · agents · plugins · hooks
+## CLAUDE.md · rules · skills · agents · plugins · hooks
 
 ---
 
