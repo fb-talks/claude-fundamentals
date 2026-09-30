@@ -62,6 +62,46 @@ Stessa forma di una skill. Due campi nuovi: **`model`** e **`tools`**.
 
 ---
 
+## Come si usa
+
+| Scrivi | Cosa succede |
+|---|---|
+| `com'è messa la libreria?` | Claude legge la **`description`** e sceglie l'agente da solo |
+| `usa l'agente auditor per passare in rassegna i componenti` | lo **chiedi per nome** |
+| `@agent-auditor passa in rassegna i componenti` | **@-mention**: parte di sicuro |
+
+- lavora in **un contesto tutto suo**: a te torna solo il report
+- `/agents` elenca gli agenti del progetto e ti aiuta a crearne di nuovi
+
+Note: dal meno al più esplicito. La delega automatica dipende tutta dalla description, per questo elenca le frasi trigger. Quando vuoi essere sicuro, digita @ e scegli l'agente dalla lista.
+
+---
+
+## Un secondo agente: `stats`
+
+```text
+.claude/agents/stats.md
+```
+
+```markdown [1-6|8-10|11-12]
+--- 
+name: stats
+description: Misura il progetto e riporta i numeri. Trigger: com'è messo il progetto in numeri, quante righe di codice, statistiche del progetto.
+model: haiku
+tools: Read, Glob, Grep, Bash
+--- 
+
+Misura il progetto e riporta una tabella: componenti, righe di .tsx
+e di .css in src/components/, commit totali, commit che toccano
+src/components/, data dell'ultimo commit, skill e agenti in .claude/.
+Usa solo comandi che leggono: git log, git rev-list, wc, find, ls.
+Mai git commit, git checkout, rm.
+```
+
+Stessa forma dell'auditor. Stavolta serve **`Bash`**: per contare i commit serve `git`, per contare le righe serve `wc`.
+
+---
+
 ## Quando il tool serve, ma è largo
 
 Un agente `stats` che conta righe e commit ha bisogno di `Bash`. Ma con `Bash` si può anche committare o cancellare.

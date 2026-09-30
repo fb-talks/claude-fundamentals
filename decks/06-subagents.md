@@ -26,6 +26,16 @@ Note: the difference matters when the work requires reading a lot. A skill doing
 
 ---
 
+## One Main Context Window
+![](assets/mockup-1790788867253-1x.png)
+
+---
+
+## Delegate to your _SubAgents_
+![](assets/mockup-1790788890641-1x.png)
+
+---
+
 ## An agent is a file
 
 ```text
@@ -53,12 +63,57 @@ Same shape as a skill. Two new fields: **`model`** and **`tools`**.
 
 - the auditor **has no `Write` or `Edit`**: it's not a recommendation, it simply **doesn't have them**
 - an agent that should only look **must not be able to touch**
-- if Claude also gave it `Write` or `Bash`, **remove them yourself**
 
 | | What it limits | How strong |
 |---|---|---|
 | `allowed-tools` in a skill | what runs **without asking** | permission |
-| `tools` in an agent | what **exists** for it | wall |
+| `tools` in an agent | what **can do**  | wall |
+
+---
+
+## How to use it
+
+| You write | What happens |
+|---|---|
+| `how is the library doing?` | Claude reads the **`description`** and picks the agent by itself |
+| `use the auditor agent to review the components` | you **ask for it by name** |
+| `@agent-auditor review the components` | **@-mention**: it runs for sure |
+
+<p class="fragment">
+
+- it works in **its own context**: you get back only the report
+
+![](assets/screen_2026_09_30_19_55_25.png)
+</p>
+
+Note: from least to most explicit. Automatic delegation depends entirely on the description, which is why it lists the trigger phrases. When you want to be sure, type @ and pick the agent from the list.
+
+---
+
+## A second agent: `stats`
+
+```text
+.claude/agents/stats.md
+```
+
+```markdown 
+--- 
+name: stats
+description: Measures the project and reports the numbers. Triggers: what does the project look like in numbers, 
+  how many lines of code, project stats.
+model: haiku
+tools: Read, Glob, Grep, Bash
+--- 
+
+Measure the project and report one table: components, lines of .tsx
+and .css in src/components/, total commits, commits that touch
+src/components/, date of the last commit, skills and agents in .claude/.
+
+Only use commands that read: git log, git rev-list, wc, find, ls.
+Never git commit, git checkout, rm.
+```
+
+Same shape as the auditor. This time it needs **`Bash`**: counting commits takes `git`, counting lines takes `wc`.
 
 ---
 
@@ -94,6 +149,8 @@ ls -d src/components/*/ | wc -l   # components
 ```
 
 If they don't match, look at **what it ran** and tighten the instructions.
+
+> Always verify if your agents work before releasing them
 
 ---
 

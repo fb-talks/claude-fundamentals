@@ -130,6 +130,37 @@ Note: una skill che deve solo guardare non ha Write né Edit. Se prova a sistema
 
 ---
 
+## Cosa sono `Read`, `Grep`, `Glob`…?
+
+- Claude non tocca il tuo computer da solo: **chiede un tool**, e Claude Code lo esegue
+- ogni tool ha un **nome**, ed è il nome che scrivi in `allowed-tools` (skill) e `tools` (agente)
+- li vedi nel terminale mentre Claude lavora: `Read(src/index.ts)`, `Bash(npm run check)`
+
+<div class="box">
+
+Alcuni tool **guardano e basta**, altri **cambiano** le cose. È questa la differenza che conta quando li scegli.
+
+</div>
+
+---
+
+## I tool principali
+
+| Tool | Cosa fa | Esempio | Modifica file? |
+|---|---|---|---|
+| `Read` | legge un file | `src/ui/Button/Button.tsx` | no |
+| `Glob` | trova file **per nome** | `src/**/*.example.tsx` | no |
+| `Grep` | cerca testo **dentro** i file | `export default` | no |
+| `Edit` | modifica una parte di un file esistente | rinomina una prop | **sì** |
+| `Write` | crea o sovrascrive un file intero | `Callout.example.tsx` | **sì** |
+| `Bash` | lancia un comando nel terminale | `npm run check` | **dipende** dal comando |
+| `WebFetch` | legge una pagina web | l'URL di una documentazione | no |
+| `WebSearch` | cerca sul web | "tailwind v4 dark mode" | no |
+
+`Read, Grep, Glob` = solo guardare. Aggiungi `Edit, Write` e può cambiare il codice. `Bash(npm run:*)` restringe `Bash` a una sola famiglia di comandi.
+
+---
+
 ## Progressive disclosure
 
 ```mermaid
@@ -191,7 +222,7 @@ Note: dal workshop in team. Nessun designer in squadra: il gusto visivo non è u
 
 - **procedura, non descrizione**: passi numerati
 - **percorsi veri** del progetto e un file esistente come modello
-- **cosa non fare**: la prima bozza ne dice sempre troppo poco
+- **cosa non fare**: dev'esserci più roba di quello che pensi
 - **output fisso**: una riga di verdetto, non un saggio
 - **corta**: trenta, quaranta, cinquanta righe al massimo
 

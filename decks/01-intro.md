@@ -8,28 +8,45 @@ section: Intro
 
 ## CLAUDE.md · rules · skills · agents · plugins · hooks
 
----
 
-<!-- disabled -->
+
+#### [_fb-talks.github.io/claude-fundamentals_](https://fb-talks.github.io/claude-fundamentals/)
+
+---
 
 <!-- .slide: class="author-slide" -->
 
 <div class="author-photo">
-  <img src="assets/author/photo-1.svg" alt="" />
-  <img src="assets/author/photo-2.svg" alt="" />
+  <img src="assets/author/fb-mountain.jpg" alt="Fabio Biondi">
+  <img src="assets/author/gemini-masterclass-26.jpg" alt="Gemini masterclass 2026">
+  <img src="assets/author/fb-mtb.jpeg" alt="Fabio Biondi in mountain bike gear">
+  <img src="assets/author/webday-26.jpg" alt="Speaking at WebDay 2026">
+  <img src="assets/author/JSDAY-26.jpg" alt="Speaking at JSDay 2026">
+  <img src="assets/author/devfest-pisa-26.jpg" alt="Speaking at DevFest Pisa 2026">
+  <img src="assets/author/devfestroma-25.jpg" alt="Speaking at DevFest Roma 2025">
 </div>
 
 <div class="author-bio">
   <h1>Fabio Biondi</h1>
   <ul>
-    <li>What you do</li>
-    <li>What you are <strong>known for</strong></li>
-    <li>Where people can find you</li>
+    <li>Freelance</li>
+    <li>AI Gen & Front-end <strong>Training for Teams</strong></li>
+    <li><strong>Google Developer Expert (Angular)</strong></li>
+    <li><strong>Speaker</strong> &amp; Content Creator</li>
+    <li><strong>Community</strong> Founder</li>
+    <li><strong>LearnByDo.ing</strong> creator</li>
   </ul>
-  <p class="author-meta">❤️ <strong>fabiobiondi.dev</strong></p>
+
+  <p class="author-meta">Main Skills: TypeScript · Angular · React · Next.js · Gemini · Claude</p>
+  <p class="author-meta">❤️ MTB · Snowboard · Tennis · Skate — <strong>FabioBiondi.dev</strong></p>
+
+<br />
+
+## _fabiobiondi.dev_
+
 </div>
 
-Note: disabled until you put your real photos in assets/author/ and write the bio. Remove the "disabled" line to bring it back.
+Note: thirty seconds, no more.
 
 ---
 

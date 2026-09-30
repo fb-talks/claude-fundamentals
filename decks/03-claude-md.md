@@ -4,6 +4,26 @@ title: CLAUDE.md
 section: CLAUDE.md
 ---
 
+Start `claude`, then a prompt that says **neither** where the file goes nor how to write it:
+
+```bash
+Add a Greeting component that takes a name prop and shows
+"Hello, {name}". Use it in App.tsx instead of the h1.
+```
+
+```ts [2-3]
+git status --short -u
+ M src/App.tsx
+?? src/Greeting.tsx
+```
+
+
+<blockquote class="fragment">
+We need a place where to set our rules
+</blockquote>
+
+---
+
 # CLAUDE.md
 
 What holds for every message, without repeating it
@@ -18,14 +38,12 @@ What's written there applies to **every message**.
 
 ```text
 hello-workshop/
-├── CLAUDE.md          ← in the project root…
+├── CLAUDE.md          ← 1. can be located in the project root…
 ├── .claude/
-│   └── CLAUDE.md      ← …or here, next to rules, skills and agents
+│   └── CLAUDE.md      ← 2. …or here, next to rules, skills and agents
 ├── package.json
 └── src/
 ```
-
-Either place works: pick one. `.claude/` keeps the root tidy and everything Claude-related in one folder.
 
 Note: the "don't touch main.tsx" from the first prompt, written here, never needs repeating. Careful: it's read at startup. If you change it, restart the session (/exit, then claude).
 
@@ -128,8 +146,6 @@ If the answer is no, delete it.
 
 `CLAUDE.md` holds only what Claude **can't infer by looking at the code**, and gets wrong if you don't tell it.
 
-Noise has a cost: the longer the file, **the less weight each line carries**, and the more likely the one you needed gets ignored.
-
 ---
 
 ## Three categories, that's all
@@ -170,15 +186,15 @@ Six lines, all of the "otherwise it gets it wrong" kind. **Under twenty lines.**
 
 Restart `claude`, then a prompt that says **neither** where the file goes nor how to write it:
 
-```text
+```bash
 Add a Greeting component that takes a name prop and shows
 "Hello, {name}". Use it in App.tsx instead of the h1.
 ```
 
-```bash
+```ts [3]
 git status --short -u
-#  M src/App.tsx
-# ?? src/components/Greeting.tsx
+ M src/App.tsx
+?? src/components/Greeting.tsx
 ```
 
 <div class="box">
@@ -194,7 +210,9 @@ A rule written and never checked is a rule **you don't know works**.
 If conventions are written **before** the code exists, the code is born compliant. Write them afterwards and you spend the afternoon fixing things.
 
 ```markdown
-## The five files to touch
+... claude.md ...
+
+## Add a component
 
 Adding a component touches **five** files, always the same:
 
@@ -217,12 +235,8 @@ A one-line prompt, no details:
 
 > Add a Spinner component to the library.
 
-| Where to look | What you find — **none of it was in the request** |
-|---|---|
-| `Spinner.tsx` | `export function Spinner`, not `export default` |
-| same file | an exported `interface SpinnerProps` |
-| `Spinner.css` | `ui-spinner…` classes, no `style={{` |
-| files touched | all five, `index.ts` included |
+
+![](assets/screen_2026_09_30_16_04_53.png)
 
 <div class="box">
 
@@ -232,14 +246,23 @@ Whatever is written in `CLAUDE.md`, Claude does **without being asked**.
 
 ---
 
-## In a team: where decisions live
+## Diff
 
-In the team workshop `CLAUDE.md` becomes **the minutes**:
+```ts [3]
+git status --short -u
 
-- the **decisions** made out loud: *is content plain text or markdown? the sort order? confirm before deleting?*
-- the **ownership areas**: who is responsible for what
-- the **rules added by the team**, at the end of the day
+ M src/App.tsx
+?? docs/components.md
+?? src/components/Spinner/Spinner.css
+?? src/components/Spinner/Spinner.example.tsx
+?? src/components/Spinner/Spinner.tsx
+?? src/components/index.ts
+```
 
-> Not on a sheet of paper and not in the chat: it's the file Claude reads on its own. A decision written there **gets respected on its own**.
 
-Note: the "Rules added by the team" section is filled in at the end, not at the start. A rule written before making the mistake is an opinion.
+| Where to look | What you find: **none of it was in the request** |
+|---|---|
+| `Spinner.tsx` | `export function Spinner`, not `export default` |
+| `Spinner.tsx` | an exported `interface SpinnerProps` |
+| `Spinner.css` | `ui-spinner…` classes, no `style={{` |
+| files touched | all five, `index.ts` included |

@@ -46,8 +46,11 @@ Note: the two lists mean roughly the same thing. But "clean" according to whom? 
 
 ## `.claude/rules/`: one file per topic
 
+`CLAUDE.md` stays **short**: the map. The details grow in the `/rules`
+
 ```text
 .claude/
+└─ CLAUDE.md
 └── rules/
     ├── api.md       ← how components are used from outside
     ├── ui.md        ← rules inside components
@@ -58,8 +61,6 @@ Note: the two lists mean roughly the same thing. But "clean" according to whom? 
 - same priority as `CLAUDE.md`, **no configuration**
 - add a file and it applies
 
-`CLAUDE.md` stays **short**: the map. The details grow here.
-
 ---
 
 ## The shape of a rule
@@ -68,8 +69,10 @@ Note: the two lists mean roughly the same thing. But "clean" according to whom? 
 # Component API
 
 - **A component's visible text comes from `children`.**
-  No `text`, `label` or `content` prop: write `<Badge>New</Badge>`,
-  not `<Badge text="New" />`. That way every component is used the same way.
+  No `text`, `label` or `content` prop: write `<Badge>New</Badge>`, not `<Badge text="New" />`. 
+  That way every component is used the same way.
+
+- ... other rules ...
 ```
 
 - **the rule in bold**: checkable with a yes or a no
@@ -113,7 +116,9 @@ flowchart TB
   S -.on demand.-> SESS
 ```
 
-**Personal** ones in `~/.claude/`, **the team's** in the repo. Your own preferences shouldn't be imposed on others.
+* **Personal** (globals) ones in `~/.claude/`. Your own preferences shouldn't be imposed on others.
+* **Project rules** (individuals or teams)
+in the repo: `.claude/`
 
 ---
 
@@ -121,28 +126,27 @@ flowchart TB
 
 Components born **before** the rule almost certainly don't follow it. It happens in every real project.
 
-The answer is an alignment pass, **once**:
+### Solutions
+* 1. Anyway Claude will often ask you if you want to adapt the old code to the new rules
 
-```text
-Align Badge, Button and Stack with the rules in .claude/rules/. Change nothing else.
+* 2. You can explicity apply rules in "old" code:
+
 ```
-
-```bash
-git diff --stat   # three files, few lines. More? git checkout . and tighten the prompt
+Align Badge, Button and Stack with the rules in .claude/rules/. Change nothing else.
 ```
 
 ---
 
-## A rule, or something else?
+## Rules, Skills or Hooks?
+
+<div class="box">
+If you repeat it in every prompt, it's not an instruction: it's a rule
+</div>
+
+<br />
 
 - a **rule** applies **always**: it sits in every session's context, takes up space and has to be worth it
 - a task that **repeats the same way**, with steps → **skill**
 - a sentence starting with **"must never happen"** → a rule isn't enough: you need a **hook**
-
-<div class="box">
-
-**If you repeat it in every prompt, it's not an instruction: it's a rule.**
-
-</div>
 
 Note: the boxed sentence comes from the end of the team workshop: reopen the day's prompts and look for sentences repeated in more than one. Those are rules disguised as instructions.
