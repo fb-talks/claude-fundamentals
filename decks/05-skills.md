@@ -23,11 +23,11 @@ A task that repeats the same way, written once
 </div>
 <div class="col">
 
-```json [7]
+```json [4]
 "scripts": {
-  // ...
+  "lint": "eslint .",
   "typecheck": "tsc -b --noEmit",
-  "check": "npm run typecheck && npm run lint",
+  "check": "npm run typecheck && npm run lint"
 },
 ```
 
@@ -178,6 +178,41 @@ allowed-tools: Read, Grep, Glob, Bash(npm run:*)
 - it's a **permission, not a wall**: outside the list, Claude has to ask
 
 Note: a skill that should only look has no Write or Edit. If it tries to fix something, a permission prompt appears: that's the signal it's stepping outside its job. The real wall comes with subagents.
+
+---
+
+## `allowed-tools`: what they're for
+
+<div class="cols">
+<div class="col">
+
+**✅ WHAT THEY DO**
+
+- **No prompts** for the tools the skill needs: it runs start to finish
+- **Only while the skill runs**: not a permanent `settings.json` rule
+- **A signal**: outside the list a prompt appears, so you see it stepping out of its job
+- **Documentation**: reading `SKILL.md` you know what it's meant to do
+
+</div>
+<div class="col fragment">
+
+**❌ WHAT THEY DON'T**
+
+- They **don't remove** tools: `Write` and `Edit` are still there
+- It can still write if the session already allows it: **accept edits**, an `allow` rule in settings, a "don't ask again"
+- `Bash(npm run:*)` also lets `npm run lint -- --fix` change files
+
+</div>
+</div>
+
+<div class="box fragment">
+
+"Use these **without asking**", not "use **only** these".
+A real wall: subagent `tools:`, a `deny` rule, or a hook.
+
+</div>
+
+Note: answers "the skill has no Write, why did it write?". The prompt only shows up in default mode; in accept-edits or auto mode the edit just goes through.
 
 ---
 

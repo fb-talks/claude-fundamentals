@@ -130,11 +130,12 @@ Note: in the exercise you let it start without a plan, stop it with Esc, throw e
 
 You need it when:
 
-- the change **touches several files**
-- you're not sure you **explained well** what you want
+- the change may **touches several files**. So, _plan before act_.
+- you're not sure you **explained well** what you want. Again, plan and discuss with Claude about the problem
 - you want to **reason** together: pros and cons, risks, alternatives
+- You just have a question for Claude
 
-<div class="box">
+<div class="box fragment">
 
 The plan is the cheapest place to find out you misunderstood each other: changing it costs **one sentence**, changing the code costs **half an hour**.
 

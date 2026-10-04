@@ -122,3 +122,10 @@ claude plugin update <p>@<m>
 # Thank you
 
 Now it's your turn: we start from an empty project.
+
+---
+
+## TODO
+- plugin utili
+- Super Powers
+- Ai skills for Real Engineers

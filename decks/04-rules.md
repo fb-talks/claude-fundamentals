@@ -61,6 +61,13 @@ Note: the two lists mean roughly the same thing. But "clean" according to whom? 
 - same priority as `CLAUDE.md`, **no configuration**
 - add a file and it applies
 
+<div class="box fragment">
+
+Same priority means **nobody wins**: if they contradict, Claude picks one.
+**One rule, one place.**
+
+</div>
+
 ---
 
 ## The shape of a rule

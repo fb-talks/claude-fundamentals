@@ -60,7 +60,7 @@ What it doesn't know is **how things are done in your project**:
 - what is never done
 - what gets repeated the same way every time
 
-<div class="box">
+<div class="box fragment">
 
 Today we learn to tell it **once**, instead of repeating it in every prompt.
 
@@ -109,11 +109,20 @@ Note: the common thread is an empty React project (Vite) that grows into a small
 ```bash
 node -v            # 20 or later
 claude --version   # npm install -g @anthropic-ai/claude-code
+git --version      # required
 ```
 
 - an editor with an **integrated terminal**
 - **two terminals** always open: `npm run dev` and `claude`
 - (in a team) **a third one**, for `git` and `npm run check` by hand
 - **git** from minute one: every step ends with a commit
+
+<div class="fragment">
+
+```bash
+gh --version       # recommended: GitHub CLI (cli.github.com), then gh auth login
+```
+
+</div>
 
 Note: I recommend sticking with Sonnet for the exercises: they are tuned to finish fast, and burning through usage limits at home means arriving in class without any.

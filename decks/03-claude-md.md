@@ -16,6 +16,7 @@ git status --short -u
  M src/App.tsx
 ?? src/Greeting.tsx
 ```
+<!-- .element: class="fragment" -->
 
 
 <blockquote class="fragment">
@@ -36,6 +37,7 @@ A Markdown file that Claude reads **on its own**, at the start of every session.
 
 What's written there applies to **every message**.
 
+Can be located in the root or in the `.claude` folder:
 ```text
 hello-workshop/
 ├── CLAUDE.md          ← 1. can be located in the project root…
@@ -49,19 +51,132 @@ Note: the "don't touch main.tsx" from the first prompt, written here, never need
 
 ---
 
+## Goals and contents
+
+<div class="cols">
+<div class="col">
+
+**🎯 THE GOALS**
+
+- **Say it once**: no rule repeated in every prompt
+- **Consistent output**: same conventions, every session
+- **Fewer corrections**: the first output already follows your conventions
+- **Shared with the team**: it's committed, everyone gets the same Claude
+
+</div>
+<div class="col fragment">
+
+**📄 WHAT GOES IN**
+
+- **Conventions**: where files go, how they're named
+- **Prohibitions**: what is never touched or added
+- **Decisions already made**: libraries, patterns, trade-offs
+- **Recurring workflows**: "adding X always means touching A, B, C"
+- **Non-obvious commands**: the ones it couldn't guess
+
+</div>
+</div>
+
+<div class="box fragment">
+
+Not documentation: only what Claude **can't see in the code**.
+
+</div>
+
+Note: the goal is not to describe the project, it's to stop repeating yourself. Every item on the right will come back in the next slides: we'll see how to cut, how to choose, and how to test.
+
+---
+
 ## `/init`, then **cut**
 
-`/init` reads the project and writes a `CLAUDE.md`. It's a **starting point, not a result**: almost always too long, full of description.
+`/init` reads the project and writes a `CLAUDE.md`. 
 
-| Cut | Why |
-|---|---|
-| "React project with Vite and TypeScript" | it sees that in `package.json` |
-| the list of folders | it sees that on its own |
-| "to start: `npm run dev`" | it's already in the scripts |
-| "write clean code", "best practices" | means nothing, so changes nothing |
-| what React or TypeScript do | it knows better than you |
+It's a **starting point, not a result**: almost always too long, full of description.
 
 Note: CLAUDE.md is not the project's documentation. Claude can read the project: the files are enough.
+
+---
+
+<div class="cols">
+<div class="col">
+
+**✗ STRAIGHT OUT OF `/init`**
+
+```markdown
+# CLAUDE.md
+
+This file provides guidance to Claude Code
+when working with code in this repository.
+
+## Project overview
+A React 19 + TypeScript app built with Vite.
+Uses ESLint for linting.
+
+## Commands
+- `npm run dev` — start the dev server
+- `npm run build` — type-check and build
+- `npm run lint` — run ESLint
+- `npm run preview` — preview the build
+
+## Structure
+- `src/main.tsx` — entry point
+- `src/App.tsx` — root component
+- `src/assets/` — static assets
+- `public/` — public files
+
+## Guidelines
+- Write clean, readable code
+- Follow React best practices
+- Use TypeScript types properly
+```
+
+</div>
+<div class="col">
+
+**✂️ WHAT'S WRONG**
+
+<div class="fragment">
+
+❌ **`## Project overview`**<br>
+🤔 **Why:** it sees that in `package.json`<br>
+✅ **Tip:** cut it
+
+</div>
+
+<div class="fragment">
+
+❌ **`## Structure`**<br>
+🤔 **Why:** it sees the folders on its own<br>
+✅ **Tip:** cut it, keep only where *new* files go
+
+</div>
+
+<div class="fragment">
+
+❌ **`## Commands`**<br>
+🤔 **Why:** they're already in the scripts<br>
+✅ **Tip:** keep only the ones it couldn't guess
+
+</div>
+
+<div class="fragment">
+
+❌ **"Write clean code", "best practices"**<br>
+🤔 **Why:** means nothing<br>
+✅ **Tip:** write a rule you can check
+
+</div>
+
+<div class="fragment">
+
+❌ **"Use TypeScript types properly"**<br>
+🤔 **Why:** it knows better than you<br>
+✅ **Tip:** state the rule: "no `any`"
+
+</div>
+
+</div>
+</div>
 
 ---
 

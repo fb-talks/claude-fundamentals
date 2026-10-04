@@ -92,11 +92,20 @@ Note: il filo conduttore è un progetto React vuoto (Vite) che diventa una picco
 ```bash
 node -v            # 20 o superiore
 claude --version   # npm install -g @anthropic-ai/claude-code
+git --version      # obbligatorio
 ```
 
 - un editor con **terminale integrato**
 - **due terminali** sempre aperti: `npm run dev` e `claude`
 - (in team) **un terzo**, per `git` e `npm run check` a mano
 - **git** dal primo minuto: ogni passo si chiude con un commit
+
+<div class="fragment">
+
+```bash
+gh --version       # consigliato: GitHub CLI (cli.github.com), poi gh auth login
+```
+
+</div>
 
 Note: consiglio di restare su Sonnet per gli esercizi: sono tarati per finire in fretta, e se si bruciano i limiti d'uso a casa si arriva in aula senza.
