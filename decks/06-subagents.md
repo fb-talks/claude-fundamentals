@@ -77,7 +77,7 @@ Same shape as a skill. Two new fields: **`model`** and **`tools`**.
 |---|---|
 | `how is the library doing?` | Claude reads the **`description`** and picks the agent by itself |
 | `use the auditor agent to review the components` | you **ask for it by name** |
-| `@agent-auditor review the components` | **@-mention**: it runs for sure |
+| `@agent-auditor review the components` | **@-tool-name**: it runs for sure |
 
 <p class="fragment">
 
@@ -129,6 +129,7 @@ tools: Read, Glob, Grep, Bash
 So the boundary goes **in the instructions**:
 
 > Only use commands that read — `git log`, `git rev-list`, `wc`, `find`, `ls`.
+
 > **Never** `git commit`, `git checkout`, `rm`.
 
 - `model: haiku`: counting doesn't need a big model. **Faster, cheaper**
@@ -155,6 +156,8 @@ If they don't match, look at **what it ran** and tighten the instructions.
 ---
 
 ## An example from teamwork: `smoke-test`
+
+A **smoke test** is a fast first check that the app is alive. It only asks "does every page answer?", not "does every feature work?". If it fails, nothing else is worth testing yet.
 
 ```yaml
 name: smoke-test

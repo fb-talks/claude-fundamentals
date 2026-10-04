@@ -496,7 +496,7 @@ Note: from the team workshop. No designer on the team: visual taste isn't a proc
 - **fixed output**: a one-line verdict, not an essay
 - **short**: thirty, forty, fifty lines at most
 
-<div class="box">
+<div class="box fragment">
 
 Have Claude write it (`/init`), then **read it and cut**. 
 
