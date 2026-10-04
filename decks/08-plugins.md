@@ -35,6 +35,11 @@ claude plugin list | grep -A3 "git@"
 - **`--scope project`**: goes into `.claude/settings.json`, gets committed, **whoever clones gets it**
 - without `--scope` the default is `user`: it applies to you, and reaches nobody else
 
+
+> after installing or updating: **`/reload-plugins`** or restart
+
+<!-- .element: class="fragment" -->
+
 Note: the workshop plugin is called git, and it has two skills that work in any repo: commit (check, message from the diff, commit) and pr (commit, push, draft pull request).
 
 ---
@@ -49,8 +54,6 @@ A plugin's skills are called like yours: with a normal sentence, or with the **p
 ```
 
 `/git:commit` runs `npm run check`, reads the diff, writes the message. **If the check fails it stops**, and tells you why.
-
-- after installing or updating: **`/reload-plugins`** or restart
 
 ---
 
@@ -69,6 +72,8 @@ johndoe-plugins/
 <div class="cols">
 <div class="col">
 
+**`plugin.json`**: what the plugin is
+
 ```json
 {
   "name": "dev-tools",
@@ -79,6 +84,8 @@ johndoe-plugins/
 
 </div>
 <div class="col">
+
+**`marketplace.json`**: where you install it from
 
 ```json
 {
@@ -94,6 +101,77 @@ johndoe-plugins/
 </div>
 
 Note: the plugin folder doesn't go inside the project: it's not that project's code, it's your own stuff that applies everywhere.
+
+---
+
+## One marketplace, many plugins
+
+<div class="cols">
+<div class="col">
+
+```text
+johndoe-plugins/
+├── .claude-plugin/
+│   └── marketplace.json
+└── plugins/
+    ├── git/
+    │   ├── .claude-plugin/plugin.json
+    │   └── skills/
+    │       ├── commit/SKILL.md
+    │       └── pr/SKILL.md
+    └── dev-tools/
+        ├── .claude-plugin/plugin.json
+        └── skills/
+            └── folder-info/SKILL.md
+```
+
+</div>
+<div class="col">
+
+**`marketplace.json`**: one entry per plugin
+
+```json
+{
+  "name": "johndoe-plugins",
+  "owner": { "name": "John Doe" },
+  "plugins": [
+    { "name": "git",
+      "source": "./plugins/git" },
+    { "name": "dev-tools",
+      "source": "./plugins/dev-tools" }
+  ]
+}
+```
+
+</div>
+</div>
+
+- every plugin has **its own folder** and its own `plugin.json`
+- each one is **installed separately**: `git@johndoe-plugins`, `dev-tools@johndoe-plugins`
+- group skills **by topic**: whoever needs only git doesn't get the rest
+
+Note: the workshop marketplace (workshop1-marketplace) has exactly this shape, with plugins/git. With a single plugin, source "./" is enough, as in the previous slide; with more than one, each source points to its subfolder.
+
+---
+
+## Inside `git`: the `commit` skill
+
+```markdown
+--- 
+name: commit
+description: Runs the project's check, lint or test and stops if they fail,
+  then writes the commit message from the diff and commits.
+allowed-tools: Read, Grep, Bash(git:*), Bash(npm run:*)
+--- 
+1. run the first script found among check, lint, test → **if it fails, stop**
+2. `git status --short` + `git diff`: what changed
+3. one line, conventional commit: `feat: add Divider component to the library`
+```
+
+- it **knows nothing about the project**, it discovers it: that's why it fits a plugin
+- `allowed-tools` lets it run only `git` and `npm run`
+
+Note: abridged from the real workshop plugin, workshop1-marketplace/plugins/git. The full SKILL.md also says what not to do: no git add -A without looking at status, no commit if step 1 fails, and propose two commits when the diff mixes two unrelated changes.
 
 ---
 

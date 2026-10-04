@@ -61,6 +61,24 @@ Note: step 8 of the workshop can go wrong and that's expected. The point isn't w
 
 ---
 
+## Two hands, one file: what can go wrong
+
+| Conflict | What happens | How you notice |
+|---|---|---|
+| **Lost write** | B saves over A's change: `Avatar` vanishes from `index.ts` | something is **missing**, the check may stay green |
+| **Broken file** | both edits land but don't fit: duplicate export, import of a file not there yet | `npm run check` **red** |
+| **Logical clash** | each change is fine alone, together they contradict: same route, same id | only at **runtime** or in review |
+
+Ways out, coming up next:
+
+- **verify** with the tools you already have
+- **split by file**: shared files get one owner, or are updated at the end
+- **worktrees**: every agent in its own copy, the conflict moves to **merge time**, where git shows it to you
+
+Note: most of the time it goes well: Edit fails if the file changed since the agent read it, so the agent re-reads it and retries. The risk is in the moments when that check doesn't help: a full rewrite with Write, or two edits in the same instant.
+
+---
+
 ## Check with the tools you have
 
 Not by eye.
@@ -297,3 +315,33 @@ Note: the branch starts from the repository's default branch. Subagents can get 
 Worktrees separate the **files**, not the **contract**: two branches that both touch `index.ts` still conflict, at merge time.
 
 </div>
+
+---
+
+## Merge time: where conflicts show up
+
+```bash
+git merge worktree-avatar     # ✅ clean
+git merge worktree-tooltip    # ❌ CONFLICT in src/components/index.ts
+```
+
+```text
+<<<<<<< HEAD
+export { Avatar } from './Avatar';
+=======
+export { Tooltip } from './Tooltip';
+>>>>>>> worktree-tooltip
+```
+
+- git **stops** and writes both versions in the file: nothing is lost, nothing is chosen for you
+- in registries and indexes the answer is almost always **keep both**
+- let Claude do it: `merge worktree-tooltip, resolve the conflicts keeping both components`
+- then `npm run check` + `/check-conventions`, and only then commit
+
+<div class="box">
+
+**One branch at a time**: merge, check, then the next. Even better: rebase the second branch on `main` **inside its worktree**, so the session that wrote the code resolves its own conflict.
+
+</div>
+
+Note: to avoid most conflicts, prepare the shared files on main before launching the sessions (empty entries in index.ts, routes in App.tsx). It's the "frozen contract" from the parallelising slide.
