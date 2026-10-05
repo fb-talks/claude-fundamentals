@@ -10,6 +10,39 @@ The box that carries skills and agents everywhere
 
 ---
 
+## Plugin and marketplace
+
+<div class="cols">
+<div class="col">
+
+**Plugin**: a package
+
+- a folder with skills, agents, hooks, MCP servers
+- it has a name and a version: `git` 1.0.0
+- installed, updated and removed **as one block**
+
+</div>
+<div class="col">
+
+**Marketplace**: the shelf
+
+- the list of plugins you can install
+- a local folder or a **GitHub repo**
+- you add it once, then install only what you need
+
+</div>
+</div>
+
+<div class="box">
+
+**Why**: copying skills from repo to repo doesn't scale. A plugin is written once, versioned, and reaches **every project and every colleague** with one command.
+
+</div>
+
+Note: same idea as an npm package and the npm registry. The marketplace is where you look, the plugin is what you install.
+
+---
+
 ## Where a skill lives, and who sees it
 
 | Where it lives | Who sees it |
@@ -17,9 +50,6 @@ The box that carries skills and agents everywhere
 | `~/.claude/skills/` | only you, in all your projects |
 | `.claude/skills/` in the repo | whoever clones the repo |
 | in a **plugin** | anyone who installs it, in any project |
-
-- a **plugin** is a folder with skills, agents (and hooks) inside
-- a **marketplace** is the list you install from: a local folder or a GitHub repo
 
 ---
 
