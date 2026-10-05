@@ -1,0 +1,12 @@
+{
+  "name": "acme-plugins",
+  "owner": { "name": "Acme Frontend Team" },
+  "metadata": { "description": "I plugin del team frontend Acme" },
+  "plugins": [
+    {
+      "name": "acme-ds",
+      "source": "./",
+      "description": "Design system Acme: nuovo componente ui-*, audit e blocco dei colori scritti a mano"
+    }
+  ]
+}

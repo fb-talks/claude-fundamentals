@@ -1,0 +1,6 @@
+{
+  "name": "acme-ds",
+  "version": "1.0.0",
+  "description": "Design system Acme: nuovo componente ui-*, audit e blocco dei colori scritti a mano",
+  "author": { "name": "Acme Frontend Team" }
+}

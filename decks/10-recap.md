@@ -125,6 +125,22 @@ Now it's your turn: we start from an empty project.
 
 ---
 
+## Exercise with the Teacher
+
+**The Acme design system**: one Angular 22 app, everything in 30 minutes.
+
+CLAUDE.md → rules → skill → agent → hook → plugin
+
+<div class="box">
+
+Step-by-step guide: [`exercises/design-system/`](https://github.com/fb-talks/claude-fundamentals/tree/main/exercises/design-system)
+
+</div>
+
+Note: start from 00-prima-dell-aula.md. Each file has the test prompts and the cp from soluzione/ if something breaks.
+
+---
+
 ## TODO
 - plugin utili
 - Super Powers
