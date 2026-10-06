@@ -63,7 +63,7 @@ claude plugin list | grep -A3 "git@"
 
 - **`plugin@marketplace`**: these are the `name`s written in the JSON files, not folder names
 - **`--scope project`**: goes into `.claude/settings.json`, gets committed, **whoever clones gets it**
-- without `--scope` the default is `user`: it applies to you, and reaches nobody else
+- without `--scope` the default is `user`: active in **all your projects**, but only for you (it's not committed, so colleagues don't get it)
 
 
 > after installing or updating: **`/reload-plugins`** or restart
@@ -107,6 +107,7 @@ johndoe-plugins/
 ```json
 {
   "name": "dev-tools",
+  "description": "Small everyday utilities",
   "version": "1.0.0",
   "author": { "name": "John Doe" }
 }

@@ -35,6 +35,47 @@ A **command of yours** that Claude Code runs before or after an action, and that
 
 ---
 
+## Before or after: `PreToolUse` and `PostToolUse`
+
+<div class="cols">
+<div class="col">
+
+**`PreToolUse`**: before the tool runs
+
+- sees what Claude is **about to do**
+- can **block** it: the action never happens
+- main goal: **guard**. "This must never happen"
+
+e.g. no `npm install` without asking
+
+</div>
+<div class="col">
+
+**`PostToolUse`**: after the tool has run
+
+- sees what Claude **just did**
+- can't undo it, but can **react**: check, report, act
+- main goal: **feedback**. "Tell Claude right away"
+
+e.g. lint the file just edited
+
+</div>
+</div>
+
+<div class="box">
+
+Same mechanism, same script shape: JSON on stdin, exit code out. Only **the moment** changes, and with it what the hook can do.
+
+</div>
+
+Note: there are other events too (Stop, SessionStart, Notification…), but these two cover the two use cases of the section: the no-dependencies guard and the lint after editing.
+
+---
+
+# `PreToolUse`: _blocking_
+
+---
+
 ## How it works
 
 ```mermaid
@@ -55,6 +96,8 @@ sequenceDiagram
 ---
 
 ## The script
+
+Reads the Bash command Claude wants to run and blocks it if it adds npm packages; everything else passes.
 
 ```js [1-5|7-12|14|16-21]
 import { readFileSync } from "node:fs";
@@ -145,21 +188,100 @@ It didn't obey: **it couldn't**.
 
 ---
 
+# `PostToolUse`: _reacting_
+
+---
+
 ## The other use: acting, silently
 
-A `PostToolUse` hook on `Edit|Write` that runs the **linter on the file just touched**:
+Every time Claude edits or creates a file, a hook runs **ESLint on that file only**:
 
-- clean → nothing
-- error → reaches Claude **right away**, which fixes it on the spot instead of at the end
-
-```js
-appendFileSync(".claude/hooks/hook.log", `${new Date().toISOString()} lint ${file} → ${result.status}\n`);
-```
-
-A hook that doesn't block **is invisible**: leave a trace in a log, or you'll never know whether it ran.
+- clean → nothing happens, Claude goes on
+- errors → they reach Claude **right away**, and it fixes them on the spot instead of discovering them at the end with `npm run check`
 
 <div class="box">
 
 `PostToolUse` fires after the change is made: it can **report**, not prevent. To prevent you need `PreToolUse`.
 
 </div>
+
+---
+
+## How it works, after
+
+```mermaid
+sequenceDiagram
+  participant C as Claude
+  participant CC as Claude Code
+  participant H as Your script
+  C->>CC: Edit("Button.tsx")
+  CC->>CC: the file is written
+  CC->>H: JSON on stdin
+  H-->>CC: exit 2 + ESLint errors on stderr
+  CC-->>C: "ESLint found problems in Button.tsx"
+  C->>C: fixes the file right away
+```
+
+- **exit 0** → nothing, Claude goes on
+- **exit 2** → the edit **stays**, and whatever you write to **stderr** reaches Claude as feedback
+
+---
+
+## The lint hook
+
+```js [1-6|8-9|11-12|14-18]
+import { readFileSync, appendFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+
+// Claude Code passes the event data as JSON on stdin: here, the file just written.
+const { tool_input } = JSON.parse(readFileSync(0, "utf8"));
+const file = tool_input?.file_path ?? "";
+
+// Only files the linter understands.
+if (!/\.(js|jsx|ts|tsx)$/.test(file)) process.exit(0);
+
+const result = spawnSync("npx", ["eslint", file], { encoding: "utf8" });
+appendFileSync(".claude/hooks/hook.log", `${new Date().toISOString()} lint ${file} → ${result.status}\n`);
+
+if (result.status === 0) process.exit(0);
+
+// exit 2 after the edit: the file stays as it is, the errors reach Claude.
+console.error(`ESLint found problems in ${file}:\n${result.stdout}`);
+process.exit(2);
+```
+
+`.claude/hooks/lint-file.mjs`
+
+Note: the log line is the point of the last step. A hook that doesn't block is invisible: without hook.log you never know whether it ran on clean files.
+
+---
+
+## Register both in `.claude/settings.json`
+
+```json [3-10|11-18]
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/no-dependencies.mjs" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/lint-file.mjs" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- **before** a Bash command → can block it
+- **after** an `Edit` or `Write` → can only report, the file is already changed
