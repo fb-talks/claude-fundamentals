@@ -2,16 +2,10 @@
 
 **Obiettivo:** un'altra app Acme, vuota, dove provare il plugin del prossimo step.
 
-Da `~/workshop/acme-shop`:
+Nella cartella che contiene `acme-shop`:
 
 ```bash
-acme-setup 6
-```
-
-Fa questo (oppure lancialo a mano):
-
-```bash
-cd ~/workshop && npx @angular/cli@22 new acme-admin --style=css --ssr=false --defaults
+cd ~/workshop && npx @angular/cli@22 new acme-admin -t -s -S --defaults
 ```
 
 ```text
@@ -27,11 +21,11 @@ Dire: *è il progetto di un collega: niente CLAUDE.md, niente `.claude/`. Non sa
 ## Verifica
 
 ```bash
-ls -a ../acme-admin         # nessun CLAUDE.md, nessuna .claude/
+ls -a ~/workshop/acme-admin         # nessun CLAUDE.md, nessuna .claude/
 ```
 
 ## Se va storto
 
 ```bash
-rm -rf ../acme-admin && acme-setup 6
+rm -rf ~/workshop/acme-admin    # e rilancia il comando qui sopra
 ```

@@ -1,17 +1,14 @@
 # acme-shop
 
-App Angular di Acme. La UI si costruisce **solo** con il design system Acme.
+App Angular di Acme. La UI si costruisce **solo** con i componenti del design system Acme.
 
-## Regole
+## Struttura
 
-- I token (colori, spaziature, raggi, font) stanno in `src/styles/tokens.css`. Si usano con `var(--…)`.
-- I componenti del design system stanno in `src/app/ui/<nome>/<nome>.ts|html|css`, selettore `ui-<nome>`, classe `Ui<Nome>`.
-- Ogni componente `ui-*` è esportato da `src/app/ui/index.ts`.
-- Ogni componente `ui-*` ha un esempio nella vetrina `src/app/showcase/`, rotta `/showcase`.
-- Le pagine stanno in `src/app/features/<nome>/` e compongono componenti `ui-*`.
+- I componenti del design system stanno in `src/app/ui/<nome>/<nome>.ts`: **un file solo**, con `template` e `styles` inline. Niente `.html` né `.css` separati.
+- Ogni componente è esportato da `src/app/ui/index.ts`.
+- Le pagine stanno in `src/app/features/<nome>/` e compongono i componenti di `src/app/ui/`.
 
 ## Non fare mai
 
-- Niente `<button>`, `<input>`, `<select>` nativi nelle feature: si usa il componente `ui-*`. Se manca, si crea prima quello.
-- Niente colori scritti a mano (`#hex`, `rgb()`, nomi): solo token.
+- Niente `<button>`, `<input>`, `<select>` nativi nelle feature: si usa il componente del design system. Se manca, si crea prima quello.
 - Niente librerie UI (Angular Material, PrimeNG, Tailwind…).

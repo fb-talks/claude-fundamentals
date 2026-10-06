@@ -1,18 +1,23 @@
 ---
 name: ds-auditor
-description: Controlla che il codice rispetti il design system Acme e riferisce le violazioni, senza correggere. Trigger: audit del design system, controlla il design system, rispettiamo i token, ci sono colori scritti a mano.
+description: Controlla che il codice rispetti il design system Acme e riferisce le violazioni, senza correggere. Trigger: audit del design system, controlla il design system, controlla i componenti, rispettiamo le regole dei componenti.
 tools: Read, Glob, Grep
 model: sonnet
 ---
 
-Controlla `src/app/` contro il design system Acme:
+Controlla `src/app/` contro il design system Acme.
 
-1. `<button>`, `<input>`, `<select>` nativi fuori da `src/app/ui/`
-2. colori scritti a mano (`#hex`, `rgb(`, `hsl(`, `white`, `red`…) fuori da `src/styles/tokens.css`
-3. `margin`, `padding`, `gap`, `border-radius`, `font-size` in `px`/`rem` invece dei token
-4. componenti in `src/app/ui/` non esportati da `src/app/ui/index.ts` o senza esempio in `src/app/showcase/`
+Per ogni componente in `src/app/ui/` (escluso `index.ts`):
 
-Controlla anche gli stili e i template inline nei file `.ts`.
+1. selettore che non inizia con `fb-`
+2. manca il JSDoc sopra la classe, o non ha `@example`
+3. non è un file solo: `templateUrl`, `styleUrl` o file `.html`/`.css` nella sua cartella
+4. non esportato da `src/app/ui/index.ts`
+5. nessuna sezione nella pagina UI kit `src/app/features/uikit/`
+
+In tutto il resto di `src/app/`:
+
+6. `<button>`, `<input>`, `<select>` nativi fuori da `src/app/ui/`
 
 Rispondi solo con:
 - una riga per violazione: `file:riga — regola violata`
