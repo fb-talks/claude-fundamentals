@@ -77,7 +77,7 @@ Same shape as a skill. Two new fields: **`model`** and **`tools`**.
 |---|---|
 | `how is the library doing?` | Claude reads the **`description`** and picks the agent by itself |
 | `use the auditor agent to review the components` | you **ask for it by name** |
-| `@agent-auditor review the components` | **@-tool-name**: it runs for sure |
+| `@auditor review the components` | **@-tool-name**: it runs for sure |
 
 <p class="fragment">
 

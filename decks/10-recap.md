@@ -119,9 +119,7 @@ claude plugin update <p>@<m>
 
 ---
 
-# Thank you
-
-Now it's your turn: we start from an empty project.
+# Exercise
 
 ---
 
@@ -138,6 +136,116 @@ Step-by-step guide: [`exercises/design-system/`](https://github.com/fb-talks/cla
 </div>
 
 Note: start from 00-prima-dell-aula.md. Each file has the test prompts and the cp from soluzione/ if something breaks.
+
+---
+
+# Superpowers: _skills as a method_
+
+---
+
+## What Superpowers is
+
+- a **plugin**: a set of skills that work together, by Jesse Vincent
+- goal: the agent follows a **method** (design → plan → build → review) instead of jumping straight into code
+- the skills trigger by themselves when the task matches, like yours
+
+```text
+/plugin install superpowers@claude-plugins-official
+```
+
+<div class="box">
+
+Everything seen today (skills, subagents, plugins) used together, and written by someone else.
+
+</div>
+
+Note: also available from its own marketplace: /plugin marketplace add obra/superpowers-marketplace, then /plugin install superpowers@superpowers-marketplace. Source: github.com/obra/superpowers.
+
+---
+
+## The workflow
+
+1. `brainstorming` → questions, approaches, a **spec**
+2. `using-git-worktrees` → an isolated branch
+3. `writing-plans` → the spec becomes small tasks: the **plan**
+4. `subagent-driven-development` → one fresh subagent per task
+5. `test-driven-development` → red, green, refactor
+6. `requesting-code-review` → checked against the plan
+7. `finishing-a-development-branch` → tests, then merge or PR
+
+Note: brainstorming and writing-plans are two separate skills on purpose. If you skip the spec, the plan solves the wrong problem very well.
+
+---
+
+## Spec vs implementation plan
+
+| | Spec | Implementation plan |
+|---|---|---|
+| **Answers** | what to build, and why | how to build it, step by step |
+| **Contains** | goal, expected behavior, edge cases, non-goals, acceptance criteria | files to touch, order of steps, code, tests, commits |
+| **Tied to the code?** | barely: survives a change of implementation | heavily: names files, functions, patterns |
+| **Who validates it** | whoever owns the product: "is this what I want?" | whoever builds it: "is this how we do it?" |
+| **Lifetime** | stays as a reference | consumed: once executed, it's done |
+
+<div class="box">
+
+Unsure **what** → spec. Unsure **how** → plan. Sure of both → just build it.
+
+</div>
+
+Note: Claude Code's plan mode produces the plan, not the spec. For a real feature, write the spec first (by hand, with brainstorming, or with a PRD skill) and give it to plan mode as input.
+
+---
+
+## Let's try it
+
+---
+
+## 1. Install
+
+<video src="assets/video/superpowers/01-install.mp4" controls muted playsinline preload="metadata"
+  style="width: 78%; aspect-ratio: 16 / 9;"></video>
+
+---
+
+## 2. Brainstorming
+
+<video src="assets/video/superpowers/02-brainstorming.mp4" controls muted playsinline preload="metadata"
+  style="width: 78%; aspect-ratio: 16 / 9;"></video>
+
+---
+
+## 3. Plan and implementation
+
+<video src="assets/video/superpowers/03-plan-and-implementation.mp4" controls muted playsinline preload="metadata"
+  style="width: 78%; aspect-ratio: 16 / 9;"></video>
+
+---
+
+## 4. Visual artifact
+
+<video src="assets/video/superpowers/04-visual-artifact.mp4" controls muted playsinline preload="metadata"
+  style="width: 78%; aspect-ratio: 16 / 9;"></video>
+
+---
+
+## 5. Subagent-driven development
+
+<video src="assets/video/superpowers/05-subagent-driven.mp4" controls muted playsinline preload="metadata"
+  style="width: 78%; aspect-ratio: 16 / 9;"></video>
+
+---
+
+## 6. Last fixes
+
+<video src="assets/video/superpowers/06-last-fixes.mp4" controls muted playsinline preload="metadata"
+  style="width: 78%; aspect-ratio: 16 / 9;"></video>
+
+---
+
+# Thank you
+
+Now it's your turn: we start from an empty project.
 
 ---
 
