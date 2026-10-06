@@ -1,4 +1,4 @@
-# 06 · Plugin (5 min)
+# 07 · Plugin (5 min)
 
 **Obiettivo:** Acme ha altre app. Skill, agente e hook valgono per **tutte**: impacchettiamoli.
 
@@ -7,11 +7,10 @@
 Da `~/workshop/acme-shop`:
 
 ```bash
-mkdir -p ../acme-ds/.claude-plugin ../acme-ds/skills ../acme-ds/agents ../acme-ds/hooks
-cp -r .claude/skills/new-ui-component ../acme-ds/skills/
-cp .claude/agents/ds-auditor.md       ../acme-ds/agents/
-cp .claude/hooks/no-hex.mjs           ../acme-ds/hooks/
+acme-setup 7          # crea ../acme-ds con skill, agente e hook di questo progetto, più i JSON
 ```
+
+Apri e mostra la struttura e i JSON qui sotto.
 
 ```text
 acme-ds/
@@ -104,5 +103,5 @@ Dire: *progetto mai visto, zero file scritti a mano: stesse regole.*
 ## Se va storto
 
 ```bash
-cp -r $SOL/acme-ds ~/workshop/          # plugin già pronto e validato
+rm -rf ~/workshop/acme-ds && cd ~/workshop/acme-shop && acme-setup 7
 ```

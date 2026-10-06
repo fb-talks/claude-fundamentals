@@ -2,6 +2,12 @@
 
 **Obiettivo:** le decisioni del design system scritte una volta, rispettate senza ripeterle.
 
+```bash
+acme-setup 1          # crea tokens.css, l'import in styles.css e CLAUDE.md
+```
+
+Apri e mostra i file qui sotto.
+
 ## 1. I token del design team
 
 `src/styles/tokens.css`
@@ -36,7 +42,7 @@
 }
 ```
 
-`src/styles.css` → sostituisci tutto con:
+`src/styles.css`
 
 ```css
 @import './styles/tokens.css';
@@ -98,5 +104,5 @@ git add -A && git commit -m "step 1"
 ## Se va storto
 
 ```bash
-cp $SOL/acme-shop/CLAUDE.md . && mkdir -p src/styles && cp $SOL/acme-shop/src/styles/tokens.css src/styles/
+git checkout . && git clean -fd && acme-setup 1
 ```

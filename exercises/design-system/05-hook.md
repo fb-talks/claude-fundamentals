@@ -4,6 +4,12 @@
 
 Il CLAUDE.md lo chiede, ma se la persona insiste Claude obbedisce alla persona. L'hook no.
 
+```bash
+acme-setup 5          # crea .claude/hooks/no-hex.mjs e .claude/settings.json
+```
+
+Apri e mostra i file qui sotto.
+
 ## 1. Lo script
 
 `.claude/hooks/no-hex.mjs`
@@ -87,5 +93,5 @@ git add -A && git commit -m "step 5"
 ## Se va storto
 
 ```bash
-mkdir -p .claude/hooks && cp $SOL/acme-shop/.claude/hooks/no-hex.mjs .claude/hooks/ && cp $SOL/acme-shop/.claude/settings.json .claude/
+git checkout . && git clean -fd && acme-setup 5
 ```

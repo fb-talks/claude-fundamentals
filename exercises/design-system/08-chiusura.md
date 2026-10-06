@@ -1,4 +1,4 @@
-# 07 · Chiusura (1 min)
+# 08 · Chiusura (1 min)
 
 | Cosa | File | Per | Visto quando |
 |---|---|---|---|

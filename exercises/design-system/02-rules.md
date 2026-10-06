@@ -5,7 +5,13 @@
 Storia: il design team rilascia i token degli **stati** (hover, disabled, focus).
 Claude ha usato `filter` e `opacity`: non poteva saperlo.
 
-## 1. Aggiungi i token degli stati
+```bash
+acme-setup 2          # aggiunge i token degli stati e crea .claude/rules/css.md
+```
+
+Apri e mostra i file qui sotto.
+
+## 1. I token degli stati
 
 In fondo a `:root` in `src/styles/tokens.css`:
 
@@ -65,5 +71,5 @@ git add -A && git commit -m "step 2"
 ## Se va storto
 
 ```bash
-mkdir -p .claude/rules && cp $SOL/acme-shop/.claude/rules/css.md .claude/rules/ && cp $SOL/acme-shop/src/styles/tokens.css src/styles/
+git checkout . && git clean -fd && acme-setup 2
 ```

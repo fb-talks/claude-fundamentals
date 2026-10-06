@@ -2,6 +2,12 @@
 
 **Obiettivo:** «nuovo componente» è sempre la stessa procedura: scriverla una volta.
 
+```bash
+acme-setup 3          # crea .claude/skills/new-ui-component/ (SKILL.md + tokens.css)
+```
+
+Apri e mostra `SKILL.md`.
+
 ## 1. La skill
 
 `.claude/skills/new-ui-component/SKILL.md`
@@ -32,10 +38,7 @@ Alla fine una riga sola: `ui-<nome>: <file creati o modificati> — build ✓|�
 
 ## 2. Il file di riferimento
 
-```bash
-cp src/styles/tokens.css .claude/skills/new-ui-component/
-```
-
+Accanto a `SKILL.md` c'è una copia di `tokens.css`.
 Dire: *il passo 1 serve nei progetti **senza** token: lo vediamo col plugin.*
 
 `/reload-skills` (o `/exit` → `claude`)
@@ -67,5 +70,5 @@ git add -A && git commit -m "step 3"
 ## Se va storto
 
 ```bash
-mkdir -p .claude/skills && cp -r $SOL/acme-shop/.claude/skills/new-ui-component .claude/skills/
+git checkout . && git clean -fd && acme-setup 3
 ```

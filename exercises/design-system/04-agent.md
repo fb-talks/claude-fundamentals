@@ -2,6 +2,12 @@
 
 **Obiettivo:** un audit che legge tutto il progetto e restituisce solo le violazioni.
 
+```bash
+acme-setup 4          # crea l'agente e il componente "sporco" cart.ts
+```
+
+Apri e mostra i file qui sotto.
+
 ## 1. Un componente scritto "da un collega"
 
 `src/app/features/cart/cart.ts`
@@ -83,7 +89,5 @@ git add -A && git commit -m "step 4"
 ## Se va storto
 
 ```bash
-mkdir -p .claude/agents src/app/features/cart
-cp $SOL/acme-shop/.claude/agents/ds-auditor.md .claude/agents/
-cp $SOL/acme-shop/src/app/features/cart/cart.ts src/app/features/cart/
+git checkout . && git clean -fd && acme-setup 4
 ```
