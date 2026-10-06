@@ -33,13 +33,13 @@ export default {
   // real app rather than a static page. Drop this key, the folder and the slide
   // that embeds it if the talk has no framework demo in it.
   servers: [
-    {
-      name: 'angular-hello',
-      cwd: 'demo/angular-hello',
-      command: 'npm',
-      args: ['start', '--', '--port', '4200'],
-      url: 'http://localhost:4200/',
-    },
+    /*     {
+          name: 'angular-hello',
+          cwd: 'demo/angular-hello',
+          command: 'npm',
+          args: ['start', '--', '--port', '4200'],
+          url: 'http://localhost:4200/',
+        }, */
   ],
 
   // A `source ↗` button on every demo slide, opening that demo's folder in real
