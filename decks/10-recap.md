@@ -66,19 +66,23 @@ It's all **Markdown or JSON in the repo**: readable, committable, reviewable in 
 
 ## From solo to team
 
-- **`CLAUDE.md` is the minutes**: decisions, owners, team rules
-- **a rule comes from a real mistake**, written at the end, not the start
-- tools **are shared with a `git pull`**: one person writes `smoke-test`, everyone uses it
-- the work repeated by hand becomes the last skill: **`/ship`** = check, commit, push
+`CLAUDE.md` and `.claude/` are committed: **one `git pull` and the whole team has them**.
+
+| What | In a team it becomes |
+|---|---|
+| `CLAUDE.md` | the shared decisions: stack, conventions, who owns what |
+| rules | the mistakes already made: the ones fixed by hand **more than once** |
+| skills, agents | written by one person (`smoke-test`), **used by everyone** |
+| plugins | what's useful in **every** repo |
+
+A good rule is **specific**:
 
 ```markdown
-Site pages fetch with `cache: "no-store"`. Without it, a post created in
-the back office doesn't show up on the home page and looks like an API bug.
+Pages fetch with `cache: "no-store"`: without it a new post
+doesn't show up on the home page and looks like an API bug.
 ```
 
-<div class="caption">A team rule, like this. Not "watch out for the cache".</div>
-
-Note: from workshop 2B. At the end of the day everyone brings one rule: the one they fixed by hand more than once, or the constraint repeated in every prompt.
+<div class="caption">Not "watch out for the cache".</div>
 
 ---
 
@@ -249,13 +253,6 @@ Now it's your turn: we start from an empty project.
 
 ---
 
-## TODO
-- plugin utili
-- Super Powers
-- Ai skills for Real Engineers
-
----
-
 ## Workshop
 
 <div class="cols">
@@ -272,3 +269,12 @@ Now it's your turn: we start from an empty project.
 
 </div>
 </div>
+
+---
+
+<!-- disabled -->
+
+## TODO
+- plugin utili
+- Super Powers
+- Ai skills for Real Engineers
