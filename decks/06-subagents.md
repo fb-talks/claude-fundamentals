@@ -18,8 +18,16 @@ A **subagent** is someone else: it has **its own context**, does the work on its
 
 ```mermaid
 flowchart LR
-  Q["Your session<br/>question"] -->|delegates| AG["Subagent<br/>its own context:<br/>reads 15 files"]
-  AG -->|only the result| R["Your session<br/>15 lines of answer"]
+  Q["Your session<br/>question"] --> A1["Subagent 1<br/>own context"]
+  Q --> A2["Subagent 2<br/>own context"]
+  Q --> A3["Subagent 3<br/>own context"]
+  Q --> A4["Subagent 4<br/>own context"]
+  Q --> A5["Subagent 5<br/>own context"]
+  A1 --> R["Your session<br/>only the results"]
+  A2 --> R
+  A3 --> R
+  A4 --> R
+  A5 --> R
 ```
 
 Note: the difference matters when the work requires reading a lot. A skill doing the same thing would fill your session with the contents of those fifteen files, and after three rounds you'd run short of space.
@@ -45,14 +53,14 @@ Note: the difference matters when the work requires reading a lot. A skill doing
 ```markdown [1-6|8-11]
 --- 
 name: auditor
-description: Reviews the library and reports how it's doing. Triggers: how is the library doing, review the components, give me an audit.
+description: Reviews the library and reports how it's doing. 
+   Triggers: how is the library doing, review the components, give me an audit.
 model: sonnet
 tools: Read, Glob, Grep
 --- 
 
-Read every component in src/components/, check the five files
-and the conventions in CLAUDE.md. Report in fifteen lines max:
-one per component, then the problems. Don't fix anything.
+Read every component in src/components/, check the five files and the conventions in CLAUDE.md. 
+Report in fifteen lines max: one per component, then the problems. Don't fix anything.
 ```
 
 Same shape as a skill. Two new fields: **`model`** and **`tools`**.
@@ -77,7 +85,7 @@ Same shape as a skill. Two new fields: **`model`** and **`tools`**.
 |---|---|
 | `how is the library doing?` | Claude reads the **`description`** and picks the agent by itself |
 | `use the auditor agent to review the components` | you **ask for it by name** |
-| `@auditor review the components` | **@-tool-name**: it runs for sure |
+| `@auditor review the components` | **@agent-name**: it runs for sure |
 
 <p class="fragment">
 

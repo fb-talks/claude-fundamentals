@@ -11,7 +11,7 @@ The first prompt, the diff, the plan
 ---
 
 ## Create a new React Project
-```ts
+```bash
 npm create vite@latest hello-react -- --template react-ts
 ```
 
