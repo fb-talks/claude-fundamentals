@@ -6,11 +6,23 @@ section: Intro
 
 # Claude Code: _the fundamentals_
 
-## CLAUDE.md · rules · skills · agents · plugins · hooks
 
 
 
 #### [_fb-talks.github.io/claude-fundamentals_](https://fb-talks.github.io/claude-fundamentals/)
+
+---
+
+## Agenda
+
+1. `CLAUDE.md`
+2. Rules
+3. Skills
+4. Agents
+5. Plugins
+6. Marketplace
+7. Hooks
+8. Superpowers
 
 ---
 
@@ -58,6 +70,7 @@ What it doesn't know is **how things are done in your project**:
 
 - which files to touch
 - what is never done
+- what must not do
 - what gets repeated the same way every time
 
 <div class="box fragment">
