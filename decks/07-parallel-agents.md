@@ -23,7 +23,7 @@ If two tasks don't depend on each other, the time is that of the **slowest**.
 
 <div class="box">
 
-But "don't depend on each other" is a phrase **to look at carefully**. That's the exercise.
+But "don't depend on each other" is a phrase **to look at carefully**. 
 
 </div>
 
@@ -50,12 +50,17 @@ Two hands on the same file, at the same moment, **can't know about each other**.
 
 ---
 
-## Four possible outcomes
+## When the two agents finish
 
-- **All green.** The most likely: each agent re-read the shared files just before writing
-- **One is missing from the showcase.** One agent overwrote the other → `/fix-conventions`
-- **`npm run check` is red.** Same cause, louder: a duplicate export, a broken import
-- **A rule not followed.** Not a collision: a rule with `paths` loads when Claude *opens* a file, and whoever **creates** a file from scratch may never open one
+Most of the time: **all green**.
+
+<div class="box">
+
+`Edit` refuses to write if the file changed since the agent read it: the agent **re-reads it and retries**, and sees the other one's change.
+
+</div>
+
+The risk is in the gaps that check doesn't cover: a file changed through `Bash` (`sed`, `cat >`), or two edits in the **same instant**.
 
 Note: step 8 of the workshop can go wrong and that's expected. The point isn't which outcome you get, it's understanding why.
 
@@ -63,158 +68,74 @@ Note: step 8 of the workshop can go wrong and that's expected. The point isn't w
 
 ## Two hands, one file: what can go wrong
 
-| Conflict | What happens | How you notice |
+| | What happens | You notice it… |
 |---|---|---|
-| **Lost write** | B saves over A's change: `Avatar` vanishes from `index.ts` | something is **missing**, the check may stay green |
-| **Broken file** | both edits land but don't fit: duplicate export, import of a file not there yet | `npm run check` **red** |
-| **Logical clash** | each change is fine alone, together they contradict: same route, same id | only at **runtime** or in review |
+| **Lost write** | B saves over A: `Avatar` disappears from `index.ts` | **hardly**: everything still compiles |
+| **Broken file** | both edits land but clash: duplicate export | `npm run check` turns **red** |
+| **Logical clash** | each edit is fine, together they contradict: same route | only at **runtime** or in review |
 
-Ways out, coming up next:
+Ways out, coming up next: **verify** · **one owner per shared file** · **worktrees**
 
-- **verify** with the tools you already have
-- **split by file**: shared files get one owner, or are updated at the end
-- **worktrees**: every agent in its own copy, the conflict moves to **merge time**, where git shows it to you
-
-Note: most of the time it goes well: Edit fails if the file changed since the agent read it, so the agent re-reads it and retries. The risk is in the moments when that check doesn't help: a full rewrite with Write, or two edits in the same instant.
+Note: the lost write is the dangerous one: everything compiles, a line is just gone, and Avatar is missing from the showcase (App.tsx) too; /fix-conventions puts it back. A broken file can also be an import of a file that isn't there yet; a logical clash can be the same id as well as the same route. Ways out: verify with the tools you already have; give each shared file one owner, or update it at the end; worktrees give every agent its own copy, so the conflict moves to merge time, where git shows it to you.
 
 ---
 
 ## Check with the tools you have
 
-Not by eye.
-
-```bash
-npm run check
-```
+- **broken file** → `npm run check`
+- **lost write** → `/check-conventions`: it checks the five files
+- **logical clash** → no tool: **you**, in review
 
 ```text
 /check-conventions
-```
 
-```text
-Avatar   ✅
+Avatar   ⚠️  missing from index.ts and App.tsx
 Badge    ✅
 Callout  ✅
-Tooltip  ⚠️  the outermost element is a <span>, doesn't follow ui.md
+Tooltip  ✅
 ```
+
+→ `/fix-conventions Avatar`
 
 The skills you wrote earlier become the **safety net** for parallel work.
 
+Note: /check-conventions can also flag something that isn't a collision: a rule with paths loads when Claude opens a matching file, and an agent that creates one from scratch may never open one (e.g. Tooltip with a span as outermost element, which doesn't follow ui.md).
+
 ---
 
-## Parallelising well
+## Parallelising well: split by file
 
-- split by **file**, not just by topic
-- shared files (registries, indexes, routes) are the **collision** point
-- in a team the same idea is called **ownership areas**: everyone has their own files, the contract is frozen
-- once done: **automatic check**, then commit
+Avatar and Tooltip are two topics, but **not** two sets of files:
+
+- **own files** (`Avatar/*`, `Tooltip/*`): only one agent touches them, no risk
+- **shared files** (`index.ts`, `App.tsx`, `docs/components.md`): they list *every* component, so every agent wants to add its line. That's where they **collide**
+
+The rule: each agent writes **only its own files**. Shared files get **one owner**, or are updated **once, at the end**.
+
+```text
+Launch two agents in parallel: one creates the Avatar files, the other Tooltip.
+Don't touch index.ts, App.tsx or docs: register both at the end.
+```
+
+Then: **automatic check**, and only after that, commit.
+
+---
+
+## Same problem in a team
+
+In a team the same idea is called **ownership areas**:
+
+- everyone has **their own files**
+- what everyone uses (types, routes, component signatures) is the **contract**: agreed at the start, then **frozen**
+- nobody changes the contract on the way, so nobody breaks someone else's work
+
+In the team workshop the three tracks are designed this way: they don't depend on each other.
 
 <div class="box">
 
 Three people or three agents, the problem is the same: **who writes where**.
 
 </div>
-
-Note: in the team workshop the three tracks are designed not to depend on each other, and the contract (types, routes, component signatures) is only discussed at the start. After that it's frozen. It's the same principle that makes parallel agents safe.
-
----
-
-## Built-in agents
-
-Claude Code already ships with some agents: **you don't write them**.
-
-| Agent | What it does | Tools |
-|---|---|---|
-| `Explore` | searches and reads the codebase, fast | **read-only** |
-| `Plan` | gathers context before writing a plan (plan mode) | **read-only** |
-| `general-purpose` | multi-step tasks: explores **and** changes | all |
-
-Claude picks them **by itself** when a task fits. You see them in the terminal as `Agent(Explore)`.
-
-Note: Explore and Plan skip CLAUDE.md and git status to stay cheap. Read-only means they can't cause side effects: that's why Claude uses them freely.
-
----
-
-## Using the built-ins on purpose
-
-```text
-Use the Explore agent, very thorough: where do we build Tailwind
-classes with template strings inside className?
-```
-
-- `Explore` has three levels: **quick**, **medium**, **very thorough**
-- the search stays **in its context**: you get back only the answer
-- same name, your file: an agent called `Explore` in `.claude/agents/` **replaces** the built-in one
-
-<div class="box">
-
-Before writing an agent that "searches the code", check if `Explore` already does it.
-
-</div>
-
----
-
-# Agent teams: the _swarm_
-
----
-
-![](assets/subagents-vs-agent-teams-dark.webp)
-
-
-
-
-- every teammate is a **separate Claude Code instance**, with its own context
-- they **talk to each other**, not only to the lead
-- they **claim tasks** from a shared list, with dependencies
-
----
-
-## Starting an _Agent Team_
-
-**Experimental**: off by default.
-
-```json
-// .claude/settings.json
-{ "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" } }
-```
-
-### Prompt:
-
-```text [1-4|6]
-Spawn an agent team of three teammates to review the library:
-- one checks accessibility, 
-- one the conventions in CLAUDE.md
-- one plays devil's advocate. 
-
-Have them challenge each other's findings.
-```
-
-Without the last line, **three subagents are enough**.
-
-Note: teammates load CLAUDE.md, skills and MCP, but not the lead's conversation: put the context they need in the spawn prompt. With tmux or iTerm2 each teammate can get its own pane.
-
----
-
-## What happens inside
-
-```mermaid
-sequenceDiagram
-  participant A as accessibility
-  participant C as conventions
-  participant D as devil's advocate
-  participant L as lead
-  A->>C: Tooltip has a span with onClick and no role
-  C->>A: it also breaks ui.md - the outer element must be a button
-  D->>A: not a bug - the click is on the parent
-  A->>D: checked - the parent has no handler
-  A->>L: one finding, confirmed by two teammates
-```
-
-- they **message each other by name**, without going through the lead
-- a finding that survives a challenge **is worth more**
-- the lead gets **one discussed conclusion**, not three lists to compare
-
-Note: an illustrative exchange, not a real transcript. With parallel subagents none of these arrows between teammates could exist: each one only reports to the main agent.
 
 ---
 
@@ -229,20 +150,21 @@ Note: an illustrative exchange, not a real transcript. With parallel subagents n
 
 ---
 
-<!-- disabled -->
+## What a worktree is
 
-/
-## Subagents or a team?
+```mermaid
+flowchart LR
+  G[(".git<br/>one history")] --> M["my-app/<br/>main"]
+  G --> A[".claude/worktrees/avatar/<br/>worktree-avatar"]
+  G --> T[".claude/worktrees/tooltip/<br/>worktree-tooltip"]
+```
 
-| | Parallel subagents | Agent team |
-|---|---|---|
-| Talk to each other | no, they report to the main agent | **yes**, directly |
-| Who coordinates | you, **before** launching them | the lead and the teammates, **while** working |
-| Cost | lower | **higher**: every teammate is a full session |
-| Status | stable | experimental |
+- plain git (`git worktree`): **more folders, one repo**, each folder on its own branch
+- it's **not a clone**: history is shared, so it's fast and light
+- `claude -w avatar` creates the folder and the branch `worktree-avatar`, then starts Claude **inside it**
+- on exit: an untouched worktree is removed, one with changes **asks** whether to keep it
 
-- a team is worth it when agents must **share findings and challenge each other**: research, review
-- **3–5 teammates**, and the file problem stays: two teammates on the same file overwrite each other
+Note: the branch starts from the repository's default branch. Subagents can get one too, with `isolation: worktree` in the frontmatter: a temporary worktree, removed if the agent changed nothing.
 
 ---
 
@@ -264,24 +186,6 @@ claude -w tooltip    # session 2 → .claude/worktrees/tooltip/
 Subagents share your files. Worktrees **don't**: the most robust way to work in parallel.
 
 </div>
-
----
-
-## What a worktree is
-
-```mermaid
-flowchart LR
-  G[(".git<br/>one history")] --> M["my-app/<br/>main"]
-  G --> A[".claude/worktrees/avatar/<br/>worktree-avatar"]
-  G --> T[".claude/worktrees/tooltip/<br/>worktree-tooltip"]
-```
-
-- plain git (`git worktree`): **more folders, one repo**, each folder on its own branch
-- it's **not a clone**: history is shared, so it's fast and light
-- `claude -w avatar` creates the folder and the branch `worktree-avatar`, then starts Claude **inside it**
-- on exit: an untouched worktree is removed, one with changes **asks** whether to keep it
-
-Note: the branch starts from the repository's default branch. Subagents can get one too, with `isolation: worktree` in the frontmatter: a temporary worktree, removed if the agent changed nothing.
 
 ---
 
@@ -345,3 +249,188 @@ export { Tooltip } from './Tooltip';
 </div>
 
 Note: to avoid most conflicts, prepare the shared files on main before launching the sessions (empty entries in index.ts, routes in App.tsx). It's the "frozen contract" from the parallelising slide.
+
+---
+
+# Agent teams: the _swarm_
+
+---
+
+![](assets/subagents-vs-agent-teams-dark.webp)
+
+
+
+
+- every teammate is a **separate Claude Code instance**, with its own context
+- they **talk to each other**, not only to the lead
+- they **claim tasks** from a shared list, with dependencies
+
+---
+
+## Parallel subagents vs agent team
+
+**Parallel subagents** are workers: each gets its task, reports back to you, and they never meet.
+
+An **agent team** is a meeting: a lead and some teammates share a task list and **talk to each other** while they work.
+
+| | Parallel subagents | Agent team |
+|---|---|---|
+| Who they talk to | only the main agent | **each other**, and the lead |
+| Who splits the work | you, **before** launching them | a shared task list: they **claim** tasks |
+| Each one is | a helper inside your session | a **full Claude Code session** |
+| Cost | lower | **higher** |
+| Status | stable | **experimental** |
+
+<div class="box">
+
+Separate tasks → **subagents**. Findings to discuss and challenge → **a team**.
+
+</div>
+
+---
+
+## Who splits the work
+
+<div class="cols">
+<div class="col">
+
+**Parallel subagents**: you, **before** launching them
+
+```text
+Agent 1 → Avatar
+Agent 2 → Tooltip
+```
+
+Each one gets its task and keeps it until the end.
+
+</div>
+<div class="col">
+
+**Agent team**: the lead writes a **task list**
+
+```text
+1. Color tokens       ✔ done     tokens
+2. Update components  ● claimed  components
+3. Showcase + docs    ● claimed  docs
+4. Contrast review    ⏸ waits for 2, 3
+```
+
+A free teammate **claims** the next free task: it's theirs, nobody else takes it.
+
+</div>
+</div>
+
+- a task can **wait** for others: it starts only when they're done
+- the work gets split **while** it runs, not all at the start
+- `Ctrl+T` shows the list
+
+---
+
+## A full Claude Code session
+
+<div class="cols">
+<div class="col">
+
+**Subagent**: a helper **inside** your session
+
+- gets a prompt, works, returns a **summary**
+- then it's **gone**
+- you can't talk to it
+
+</div>
+<div class="col">
+
+**Teammate**: **another `claude`** running
+
+- its own context: loads CLAUDE.md, skills, MCP
+- starts **blank**: it knows only what the lead tells it when creating it
+- talks to the others through **messages**, not shared memory
+- **stays open** after its task: select it (`↑` `↓`, `Enter`) and write to it directly, like any session
+- costs like a **whole session**
+
+</div>
+</div>
+
+<div class="box">
+
+A subagent is a **function call**. A teammate is a **colleague**.
+
+</div>
+
+---
+
+## Starting an _Agent Team_
+
+**Experimental**: off by default.
+
+```json
+// .claude/settings.json
+{ "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" } }
+```
+
+Note: teammates load CLAUDE.md, skills and MCP, but not the lead's conversation: put the context they need in the spawn prompt. With tmux or iTerm2 each teammate can get its own pane.
+
+---
+
+## A team that debates
+
+Same symptom, **three competing causes**: if one is right, the others are wrong.
+
+```text [1-5|6-8]
+Users get logged out at random, usually after about 10 minutes.
+Create an agent team of three, one hypothesis each:
+- token: two tabs refresh the token at the same time, one invalidates the other
+- cookie: the session cookie is lost between subdomains
+- server: the session expires early behind the load balancer
+Each one proves its own hypothesis and sends the others
+any evidence that rules theirs out.
+Report the cause that survives, with the evidence.
+```
+
+**Sharing evidence** is what makes it a team. Without it, three subagents are enough.
+
+---
+
+## What happens inside
+
+```mermaid
+sequenceDiagram
+  participant T as token
+  participant C as cookie
+  participant S as server
+  participant L as lead
+  C->>S: the cookie is set on the parent domain - it reaches every subdomain
+  S->>C: then it's not the cookie. And the session TTL is 30 min, not 10
+  T->>S: in the logs, two refreshes 40 ms apart - the second one gets a 401
+  S->>T: matches - every logout follows a 401 on refresh
+  T->>L: cause - refresh race between tabs, confirmed by server
+```
+
+- they **message each other by name**, without going through the lead
+- every hypothesis gets **attacked**, not just proposed
+- the lead gets **one cause with evidence**, not three guesses
+
+Note: an illustrative exchange, not a real transcript. With parallel subagents none of these arrows between teammates could exist: each one only reports to the main agent.
+
+---
+
+## Another team: building together
+
+```text
+Create an agent team to add dark mode to the library.
+- tokens: defines the color variables for light and dark
+- components: updates every component to use them
+- docs: adds dark mode to the showcase and docs/components.md
+- reviewer: checks contrast and conventions, sends issues back to whoever owns the file
+Each teammate only writes its own files.
+```
+
+- **dependencies**: `components` waits until `tokens` is done
+- **useful messages**: "what's the dark background variable called?"
+- **ownership**: one owner per file, the reviewer sends issues back to it
+
+<div class="box">
+
+Debating or building: a team pays off when agents **need each other while they work**.
+
+</div>

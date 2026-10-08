@@ -44,7 +44,42 @@ Note: the difference matters when the work requires reading a lot. A skill doing
 
 ---
 
-## An agent is a file
+## Built-in agents
+
+Claude Code already ships with some agents: **you don't write them**.
+
+| Agent | What it does | Tools |
+|---|---|---|
+| `Explore` | searches and reads the codebase, fast | **read-only** |
+| `Plan` | gathers context before writing a plan (plan mode) | **read-only** |
+| `general-purpose` | multi-step tasks: explores **and** changes | all |
+
+Claude picks them **by itself** when a task fits. You see them in the terminal as `Agent(Explore)`.
+
+Note: Explore and Plan skip CLAUDE.md and git status to stay cheap. Read-only means they can't cause side effects: that's why Claude uses them freely.
+
+---
+
+## Using the built-ins on purpose
+
+```text
+Use the Explore agent, very thorough: where do we build Tailwind
+classes with template strings inside className?
+```
+
+- `Explore` has three levels: **quick**, **medium**, **very thorough**
+- the search stays **in its context**: you get back only the answer
+- when you write your own, mind the name: an agent of yours called `Explore` **replaces** the built-in one
+
+<div class="box">
+
+Before writing an agent that "searches the code", check if `Explore` already does it.
+
+</div>
+
+---
+
+## Your own agent: just a file
 
 ```text
 .claude/agents/auditor.md

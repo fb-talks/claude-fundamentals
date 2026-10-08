@@ -253,3 +253,22 @@ Now it's your turn: we start from an empty project.
 - plugin utili
 - Super Powers
 - Ai skills for Real Engineers
+
+---
+
+## Workshop
+
+<div class="cols">
+<div class="col">
+
+**[l1nq.com/claude-workshop](https://l1nq.com/claude-workshop)**
+
+[www.learnbydo.ing/courses/ai/claude-workshop/slides](https://www.learnbydo.ing/courses/ai/claude-workshop/slides)
+
+</div>
+<div class="col">
+
+<img src="assets/workshop-qr.png" alt="QR code to the workshop" style="width: 300px; image-rendering: pixelated;">
+
+</div>
+</div>
